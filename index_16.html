@@ -1,0 +1,1117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>TruPick &middot; Pick smart. Shop with trust.</title>
+<meta name="description" content="See what buyers of similar products loved and complained about, even before a product has reviews.">
+<meta name="theme-color" content="#0f6b4f">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="icon" href="icon-192.png">
+<link rel="apple-touch-icon" href="icon-192.png">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="TruPick">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#f6f7f4; --surface:#ffffff; --ink:#13201a; --muted:#5d6b64; --line:#e3e8e4;
+  --green:#0f6b4f; --green-dark:#0a4f3a; --green-soft:#e4f2eb;
+  --amber:#a16207; --amber-soft:#fdf4dc; --red:#b42318; --red-soft:#fdeceb; --grey-soft:#eef1ef;
+  --radius:20px; --shadow:0 1px 2px rgba(19,32,26,.05),0 8px 24px rgba(19,32,26,.06);
+}
+*{box-sizing:border-box;margin:0}
+html{scroll-behavior:smooth}
+body{font-family:"Plus Jakarta Sans","Segoe UI",system-ui,sans-serif;background:var(--bg);color:var(--ink);line-height:1.5;-webkit-font-smoothing:antialiased}
+img{display:block;max-width:100%}
+a{color:inherit}
+.wrap{width:min(1160px,100% - 32px);margin:0 auto}
+button{font:inherit;cursor:pointer;color:inherit}
+svg.i{width:18px;height:18px;flex:none}
+
+/* nav */
+nav{position:sticky;top:0;z-index:20;background:rgba(246,247,244,.88);backdrop-filter:blur(12px);border-bottom:1px solid transparent;transition:border-color .2s}
+nav.scrolled{border-bottom-color:var(--line)}
+nav .wrap{display:flex;align-items:center;gap:28px;height:68px}
+.brand{display:flex;align-items:center;gap:10px;font-weight:800;font-size:17px;text-decoration:none;letter-spacing:-.01em}
+.brand img{width:38px;height:38px}
+.brand .tru{color:#1f5a46}.brand .pick{color:#4fa57f}
+.brand{font-size:21px;letter-spacing:-.02em;gap:8px}
+.links{display:flex;gap:24px;margin-left:auto}
+.links a{text-decoration:none;color:var(--muted);font-size:14px;font-weight:500}
+.links a:hover{color:var(--ink)}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;border:0;border-radius:999px;padding:12px 22px;font-weight:600;font-size:15px;text-decoration:none;transition:background .2s,transform .15s,box-shadow .2s}
+.btn-primary{background:var(--green);color:#fff;box-shadow:0 6px 16px rgba(15,107,79,.25)}
+.btn-primary:hover{background:var(--green-dark);transform:translateY(-1px)}
+.btn-primary:disabled{opacity:.6;transform:none}
+nav .btn{padding:9px 18px;font-size:14px}
+
+/* hero */
+.hero{padding:56px 0 72px}
+.hero .wrap{display:grid;grid-template-columns:1.05fr .95fr;gap:56px;align-items:center}
+.eyebrow{display:inline-flex;align-items:center;gap:8px;padding:6px 12px;border-radius:999px;background:var(--green-soft);color:var(--green);font-size:13px;font-weight:600}
+h1{font-size:clamp(36px,5.2vw,60px);line-height:1.04;letter-spacing:-.035em;font-weight:800;margin:18px 0}
+h1 em{font-style:normal;color:var(--green)}
+.lead{font-size:18px;color:var(--muted);max-width:520px}
+.quick{display:flex;gap:8px;margin-top:28px;padding:8px;background:var(--surface);border:1px solid var(--line);border-radius:999px;box-shadow:var(--shadow);max-width:540px}
+.quick input{flex:1;min-width:0;border:0;outline:0;background:none;padding:0 14px;font:inherit;font-size:15px;color:var(--ink)}
+.quick .btn{flex:none}
+.stats{display:flex;gap:36px;margin-top:36px;flex-wrap:wrap}
+.stats b{display:block;font-size:24px;letter-spacing:-.02em}
+.stats span{font-size:13px;color:var(--muted)}
+.collage{position:relative;height:520px}
+.collage .main{position:absolute;inset:0 0 40px 60px;border-radius:28px;overflow:hidden;box-shadow:var(--shadow)}
+.collage .main img,.collage .small img{width:100%;height:100%;object-fit:cover}
+.collage .small{position:absolute;left:0;bottom:0;width:190px;height:240px;border-radius:22px;overflow:hidden;border:6px solid var(--bg);box-shadow:var(--shadow)}
+.say{position:absolute;background:var(--surface);border-radius:16px;padding:12px 14px;box-shadow:0 12px 32px rgba(19,32,26,.14);width:236px;animation:bob 5s ease-in-out infinite}
+.say small{display:flex;align-items:center;gap:6px;font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.06em}
+.say p{font-size:13px;margin-top:4px;color:#33443c}
+.say.love{right:-12px;top:30px}.say.love small{color:var(--green)}
+.say.warn{left:150px;bottom:64px;animation-delay:-2.5s}.say.warn small{color:var(--amber)}
+@keyframes bob{0%,100%{transform:translateY(0)}50%{transform:translateY(-8px)}}
+
+/* sections */
+section{padding:80px 0}
+.head{max-width:660px;margin-bottom:40px}
+.head h2,.h2{font-size:clamp(28px,3.4vw,40px);letter-spacing:-.03em;line-height:1.1;margin:12px 0}
+.head p{color:var(--muted);font-size:17px}
+.white{background:var(--surface);border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
+.steps{display:grid;grid-template-columns:repeat(3,1fr);gap:20px}
+.step{padding:28px;border-radius:var(--radius);background:var(--bg);border:1px solid var(--line)}
+.step .ic{width:44px;height:44px;border-radius:12px;background:var(--green-soft);color:var(--green);display:grid;place-items:center;margin-bottom:18px}
+.step .ic svg{width:22px;height:22px}
+.step h3{font-size:18px;margin-bottom:6px}
+.step p{color:var(--muted);font-size:15px}
+.step .num{float:right;font-size:13px;font-weight:700;color:#a3b0a9}
+
+.cats{display:grid;grid-template-columns:repeat(4,1fr);gap:20px}
+.cat{position:relative;border-radius:var(--radius);overflow:hidden;background:var(--surface);border:1px solid var(--line);text-align:left;padding:0;transition:transform .2s,box-shadow .2s}
+.cat:hover{transform:translateY(-4px);box-shadow:var(--shadow)}
+.cat .ph{height:190px;overflow:hidden}
+.cat .ph img{width:100%;height:100%;object-fit:cover;transition:transform .5s}
+.cat:hover .ph img{transform:scale(1.05)}
+.cat .tx{padding:14px 16px 16px}
+.cat h3{font-size:16px}
+.cat p{font-size:13px;color:var(--muted);margin-top:2px}
+.cat .go{display:inline-flex;margin-top:8px;font-size:13px;font-weight:600;color:var(--green)}
+.cat .badge{display:none;position:absolute;top:12px;left:12px;padding:4px 10px;border-radius:999px;background:rgba(255,255,255,.92);font-size:12px;font-weight:700;color:var(--muted)}
+.cat.soon .badge{display:block}
+.cat.soon .go{color:var(--muted)}
+.cat.soon .ph img{filter:saturate(.6)}
+
+/* checker */
+.checker{background:var(--surface);border:1px solid var(--line);border-radius:28px;box-shadow:var(--shadow);padding:28px}
+.tabs{display:inline-flex;padding:4px;border-radius:999px;background:var(--grey-soft);margin-bottom:18px}
+.tabs button{border:0;background:none;padding:9px 18px;border-radius:999px;font-size:14px;font-weight:600;color:var(--muted)}
+.tabs button.on{background:var(--surface);color:var(--ink);box-shadow:0 1px 3px rgba(0,0,0,.08)}
+.bar{display:flex;gap:10px;flex-wrap:wrap;align-items:center}
+select{font:inherit;font-size:14px;padding:11px 14px;border-radius:999px;border:1px solid var(--line);background:var(--surface);color:var(--ink);outline:0}
+.field{flex:1;min-width:220px;display:flex;align-items:center;gap:8px;padding:5px 5px 5px 18px;border-radius:999px;border:1px solid var(--line);background:var(--bg)}
+.field:focus-within{border-color:var(--green);background:var(--surface);box-shadow:0 0 0 4px var(--green-soft)}
+.field input{flex:1;min-width:0;border:0;outline:0;background:none;font:inherit;font-size:15px;color:var(--ink);padding:8px 0}
+.field .tag{flex:none;width:26px;height:26px;border-radius:50%;display:grid;place-items:center;background:var(--green-soft);color:var(--green);font-size:12px;font-weight:800}
+.hint{font-size:13px;color:var(--muted);margin-top:10px}
+.chips{display:flex;gap:8px;flex-wrap:wrap;margin-top:14px;align-items:center;font-size:13px;color:var(--muted)}
+.chips button{border:1px solid var(--line);background:var(--surface);border-radius:999px;padding:6px 12px;font-size:13px}
+.chips button:hover{border-color:var(--green);color:var(--green)}
+.status{margin-top:14px;font-size:14px;color:var(--muted);min-height:21px}
+.status.err{color:var(--red)}
+.hidden{display:none!important}
+
+.panel{border:1px solid var(--line);border-radius:var(--radius);padding:22px;background:var(--surface)}
+.panel h4{display:flex;align-items:center;gap:8px;font-size:13px;text-transform:uppercase;letter-spacing:.06em;color:var(--muted);margin-bottom:14px}
+.result{display:grid;gap:20px;margin-top:22px}
+.summary{display:grid;grid-template-columns:1fr auto;gap:20px;align-items:center;background:var(--bg)}
+.verdict{display:flex;align-items:flex-start;gap:12px;font-size:clamp(20px,2.4vw,26px);font-weight:700;letter-spacing:-.02em;line-height:1.25}
+.verdict .dot{flex:none;width:14px;height:14px;border-radius:50%;margin-top:8px;background:var(--tone,var(--green));box-shadow:0 0 0 5px var(--tone-soft,var(--green-soft))}
+.facts{display:flex;flex-wrap:wrap;gap:8px;margin-top:14px}
+.fact{padding:7px 12px;border-radius:999px;background:var(--surface);border:1px solid var(--line);font-size:13px;color:var(--muted)}
+.fact b{color:var(--ink)}
+.fb{display:flex;align-items:center;gap:8px;flex-wrap:wrap;font-size:14px}
+.fb button{border:1px solid var(--line);background:var(--surface);border-radius:999px;padding:7px 16px;font-weight:600}
+.fb button:hover:not(:disabled){border-color:var(--green);color:var(--green)}
+.fb button:disabled{opacity:.5;cursor:default}
+.fb em{font-style:normal;color:var(--muted);font-size:13px;width:100%;text-align:right}
+.two{display:grid;grid-template-columns:1.35fr 1fr;gap:20px}
+.says{display:grid;grid-template-columns:1fr 1fr;gap:18px}
+.says h5{display:flex;align-items:center;gap:6px;font-size:14px;margin-bottom:10px}
+.says .love h5{color:var(--green)}.says .bad h5{color:var(--amber)}
+.aspect{padding:12px 0;border-top:1px solid var(--line)}
+.aspect .row{display:flex;justify-content:space-between;gap:10px;font-weight:600;font-size:14px}
+.aspect .row span{color:var(--muted);font-weight:500;font-size:13px;flex:none}
+.meter{height:6px;border-radius:99px;background:var(--grey-soft);margin:7px 0 8px;overflow:hidden}
+.meter i{display:block;height:100%;border-radius:99px;background:var(--green)}
+.bad .meter i{background:#d69e2e}
+.aspect q{display:block;font-size:13px;color:var(--muted);font-style:italic;quotes:"\201C" "\201D"}
+.empty{font-size:14px;color:var(--muted);padding:12px 0;border-top:1px solid var(--line)}
+.check{list-style:none;padding:0;display:grid;gap:12px}
+.check li{display:flex;gap:12px;font-size:14px;color:#33443c}
+.check li .box{flex:none;width:22px;height:22px;border-radius:7px;border:2px solid #b9c4be;display:grid;place-items:center;cursor:pointer;transition:all .15s}
+.check li.done .box{background:var(--green);border-color:var(--green)}
+.check li.done .box::after{content:"";width:6px;height:10px;border:solid #fff;border-width:0 2px 2px 0;transform:rotate(45deg) translate(-1px,-1px)}
+.check li.done span{text-decoration:line-through;color:var(--muted)}
+.check b{display:block;color:var(--ink);font-size:13px}
+.alts{display:grid;grid-template-columns:repeat(4,1fr);gap:14px}
+.alt{border:1px solid var(--line);border-radius:16px;padding:14px;display:flex;flex-direction:column;gap:8px}
+.alt .t{font-size:14px;font-weight:600;line-height:1.35;display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden}
+.alt .m{font-size:13px;color:var(--muted)}
+.alt .m b{color:var(--ink)}
+.alt .lk{display:flex;gap:6px;margin-top:auto}
+.alt .lk a,.shops a{padding:6px 11px;border-radius:999px;border:1px solid var(--line);font-size:12px;font-weight:600;text-decoration:none}
+.alt .lk a:hover,.shops a:hover{border-color:var(--green);color:var(--green)}
+details.more{margin-top:4px}
+details.more summary{cursor:pointer;font-size:14px;font-weight:600;color:var(--green);list-style:none}
+details.more summary::-webkit-details-marker{display:none}
+.item{display:flex;align-items:center;gap:12px;padding:9px 0;border-bottom:1px solid var(--line);font-size:14px}
+.item:last-child{border-bottom:0}
+.item .r{flex:none;width:46px;height:26px;border-radius:8px;display:grid;place-items:center;font-weight:700;font-size:12px;background:var(--grey-soft)}
+.item .t{flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.item em{font-style:normal;color:var(--muted);font-size:12px;flex:none}
+.shops{display:flex;flex-wrap:wrap;gap:8px;margin-top:14px}
+
+/* result extras */
+.forq{display:flex;align-items:center;gap:8px;font-size:13px;color:var(--muted);margin-bottom:10px;min-width:0}
+.forq b{color:var(--ink);font-weight:600;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;min-width:0}
+.forq svg{width:15px;height:15px;flex:none;color:var(--green)}
+.fb .share{border:0;background:var(--green-soft);color:var(--green-dark);border-radius:999px;padding:7px 14px;font-weight:700;display:inline-flex;align-items:center;gap:6px}
+.fb .share:hover{background:#d3eadf}
+.fb .share svg{width:15px;height:15px}
+.prog{display:flex;align-items:center;gap:10px;margin:-4px 0 14px;font-size:12px;color:var(--muted);font-weight:600}
+.pbar{flex:1;height:6px;border-radius:99px;background:var(--grey-soft);overflow:hidden}
+.pbar i{display:block;height:100%;width:0;border-radius:99px;background:var(--green);transition:width .35s ease}
+.check .why{display:flex;align-items:center;gap:6px;margin-top:4px;font-size:12px;font-weight:600;color:var(--muted)}
+.check .why::before{content:"";width:7px;height:7px;border-radius:50%;background:#b9c4be;flex:none}
+.check .why.complaint{color:#8a5a0a}.check .why.complaint::before{background:#d69e2e}
+.check .why.popular{color:var(--green)}.check .why.popular::before{background:var(--green)}
+.check li.done .why{opacity:.6}
+.ready{display:flex;align-items:center;gap:10px;margin-top:14px;padding:12px 14px;border-radius:14px;background:var(--green-soft);color:var(--green-dark);font-size:14px;font-weight:600;animation:rise .35s ease}
+.ready svg{width:20px;height:20px;flex:none}
+.skel{display:grid;gap:14px;margin-top:22px}
+.skel div{border-radius:18px;background:linear-gradient(90deg,var(--grey-soft) 0,#f8faf8 40%,var(--grey-soft) 80%);background-size:200% 100%;animation:shine 1.2s linear infinite}
+.skel .a{height:110px}.skel .b{height:220px}.skel .c{height:150px}
+@keyframes shine{to{background-position:-200% 0}}
+.toast{white-space:nowrap;max-width:calc(100vw - 32px);overflow:hidden;text-overflow:ellipsis;position:fixed;left:50%;bottom:24px;transform:translate(-50%,20px);opacity:0;z-index:80;background:var(--ink);color:#fff;padding:10px 18px;border-radius:999px;font-size:14px;font-weight:600;transition:all .25s;pointer-events:none}
+.toast.show{opacity:1;transform:translate(-50%,0)}
+
+/* compare */
+.cmp-fields{display:grid;grid-template-columns:1fr auto 1fr;gap:10px;align-items:center}
+.vs{font-weight:800;color:var(--muted);font-size:13px}
+.winner{display:flex;gap:14px;align-items:flex-start;padding:18px 20px;border-radius:var(--radius);background:var(--green-soft);color:var(--green-dark);font-weight:600}
+.winner.even{background:var(--grey-soft);color:var(--ink)}
+.winner svg{width:24px;height:24px;flex:none}
+.cmp{display:grid;grid-template-columns:1fr 1fr;gap:20px}
+.cmp .panel h3{font-size:17px;line-height:1.3;margin-bottom:6px;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+.cmp .tagline{display:flex;align-items:center;gap:8px;font-weight:700;margin:8px 0 12px}
+.cmp .tagline .dot{width:10px;height:10px;border-radius:50%;background:var(--tone)}
+.cmp ul{list-style:none;padding:0;display:grid;gap:6px;margin-top:8px;font-size:14px}
+.cmp li{display:flex;gap:8px}
+.cmp li::before{content:"+";font-weight:800;color:var(--green)}
+.cmp li.neg::before{content:"\2212";color:var(--amber)}
+.cmp .pick{outline:2px solid var(--green);outline-offset:-1px}
+.cmp .crown{display:none;font-size:12px;font-weight:700;color:var(--green);text-transform:uppercase;letter-spacing:.06em}
+.cmp .pick .crown{display:block}
+
+/* about */
+.about-grid{display:grid;grid-template-columns:1fr 1fr;gap:56px;align-items:start}
+.about-grid .ph{border-radius:28px;overflow:hidden;height:360px;margin-top:28px}
+.about-grid .ph img{width:100%;height:100%;object-fit:cover}
+.pillars{display:grid;gap:18px;margin-top:24px}
+.pillar{display:flex;gap:14px}
+.pillar .ic{flex:none;width:40px;height:40px;border-radius:12px;background:var(--green-soft);color:var(--green);display:grid;place-items:center}
+.pillar h3{font-size:16px}
+.pillar p{font-size:14px;color:var(--muted)}
+.faq{display:grid;gap:10px}
+.faq details{border:1px solid var(--line);border-radius:16px;background:var(--surface);padding:16px 18px}
+.faq summary{cursor:pointer;font-weight:600;list-style:none;display:flex;justify-content:space-between;gap:12px}
+.faq summary::-webkit-details-marker{display:none}
+.faq summary::after{content:"+";font-size:20px;line-height:1;color:var(--green)}
+.faq details[open] summary::after{content:"\2212"}
+.faq p{margin-top:10px;font-size:14px;color:var(--muted)}
+[hidden]{display:none!important}
+.spacer{display:none}
+/* sign-in */
+.btn-ghost{background:var(--surface);color:var(--ink);border:1px solid var(--line)}
+.btn-ghost:hover{border-color:#c9d2cd}
+nav .btn-ghost{box-shadow:none}
+.who{display:flex;align-items:center;gap:8px}
+.av{width:34px;height:34px;border-radius:50%;background:var(--green-soft);color:var(--green);display:grid;place-items:center;font-weight:800;font-size:14px;overflow:hidden;flex:none}
+.av img{width:100%;height:100%;object-fit:cover}
+.who button{border:0;background:none;color:var(--muted);font-size:13px;font-weight:600;padding:6px}
+.who button:hover{color:var(--ink)}
+.gate{display:flex;align-items:center;gap:10px;margin:-20px 0 22px;font-size:14px;color:var(--muted)}
+.gate button{border:0;background:none;color:var(--green);font-weight:700;padding:0;text-decoration:underline}
+.modal{position:fixed;inset:0;z-index:60;background:rgba(19,32,26,.45);display:grid;place-items:center;padding:16px;backdrop-filter:blur(3px)}
+.modal[hidden]{display:none}
+.sheet{position:relative;width:min(420px,100%);max-height:calc(100vh - 32px);overflow:auto;background:var(--surface);border-radius:24px;padding:28px 26px 24px;box-shadow:0 24px 60px rgba(19,32,26,.25);animation:rise .3s cubic-bezier(.2,.8,.2,1)}
+.sheet .x{position:absolute;top:14px;right:14px;width:34px;height:34px;border-radius:50%;border:0;background:var(--grey-soft);font-size:18px;line-height:1}
+.sheet h3{font-size:22px;letter-spacing:-.02em;margin:10px 0 4px}
+.sheet .sub{color:var(--muted);font-size:14px;margin-bottom:18px}
+.sheet .logo{display:flex;align-items:center;gap:8px;font-weight:800;font-size:18px}
+.sheet .logo img{width:32px;height:32px}
+.gbtn{width:100%;display:flex;align-items:center;justify-content:center;gap:10px;padding:12px;border-radius:999px;border:1px solid var(--line);background:var(--surface);font-weight:600;font-size:15px}
+.gbtn:hover{border-color:#b9c4be}
+.gbtn svg{width:18px;height:18px}
+.or{display:flex;align-items:center;gap:12px;color:var(--muted);font-size:13px;margin:16px 0}
+.or::before,.or::after{content:"";flex:1;height:1px;background:var(--line)}
+.sheet label{display:block;font-size:13px;font-weight:600;margin:10px 0 6px}
+.sheet .in{width:100%;padding:12px 14px;border-radius:14px;border:1px solid var(--line);background:var(--bg);font:inherit;font-size:16px;color:var(--ink);outline:0}
+.sheet .in:focus{border-color:var(--green);background:var(--surface);box-shadow:0 0 0 4px var(--green-soft)}
+.sheet .btn-primary{width:100%;margin-top:16px}
+.sheet .links2{display:flex;justify-content:space-between;gap:10px;margin-top:14px;font-size:13px}
+.sheet .links2 button{border:0;background:none;color:var(--green);font-weight:600;padding:0}
+.sheet .msg{margin-top:12px;font-size:14px;padding:10px 12px;border-radius:12px;background:var(--grey-soft)}
+.sheet .msg.err{background:var(--red-soft);color:var(--red)}
+.sheet .msg.ok{background:var(--green-soft);color:var(--green-dark)}
+.sheet .msg:empty{display:none}
+.sheet .fine{margin-top:14px;font-size:12px;color:var(--muted);text-align:center}
+@media(max-width:640px){
+  .modal{align-items:end;padding:0}
+  .sheet{width:100%;border-radius:24px 24px 0 0;max-height:92vh;padding:26px 20px calc(20px + env(safe-area-inset-bottom))}
+  nav #authBtn .t{display:none}
+  nav #authBtn{padding:8px 10px}
+  .who button{display:none}
+}
+
+footer{padding:36px 0;border-top:1px solid var(--line);font-size:13px;color:var(--muted)}
+footer .wrap{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap}
+
+.hero .wrap>*,.two>*,.cmp>*,.about-grid>*,.steps>*,.cats>*,.alts>*,.says>*{min-width:0}
+.reveal{opacity:0;transform:translateY(18px);transition:opacity .6s ease,transform .6s ease}
+.reveal.in{opacity:1;transform:none}
+@keyframes rise{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:none}}
+.pop{animation:rise .5s cubic-bezier(.2,.8,.2,1) both}
+
+@media(max-width:980px){
+  .hero .wrap,.about-grid,.two{grid-template-columns:1fr}
+  .collage{height:420px}
+  .cats,.alts{grid-template-columns:repeat(2,1fr)}
+  .links{display:none}
+  .spacer{display:block;flex:1}
+  .summary{grid-template-columns:1fr}
+  .fb em{text-align:left}
+}
+@media(max-width:640px){
+  nav .wrap{height:58px;gap:12px}
+  .brand{font-size:15px;white-space:nowrap}
+  .brand img{width:32px;height:32px}
+  .brand{font-size:19px}
+  nav .btn{padding:8px 14px;font-size:13px}
+  nav .btn .long{display:none}
+  h1{font-size:34px}
+  .lead{font-size:16px}
+  .stats{display:grid;grid-template-columns:repeat(3,auto);justify-content:start;gap:20px;margin-top:28px}.stats b{font-size:19px}.stats span{font-size:12px}
+  .hero{padding:28px 0 48px}
+  .bar select,.bar .field{width:100%;flex-basis:100%}
+  .tabs{display:flex}.tabs button{flex:1}
+  .field input{font-size:16px}
+  .quick input{font-size:16px}
+  .summary .fb{justify-content:flex-start}
+  .alt .lk a{padding:9px 13px}
+  footer .wrap{flex-direction:column}
+  .steps,.cats,.says,.cmp,.cmp-fields{grid-template-columns:1fr}
+  .vs{text-align:center}
+  .alts{grid-template-columns:1fr}
+  .collage{height:340px}
+  .collage .main{inset:0 0 30px 30px}
+  .collage .small{width:130px;height:170px}
+  .say{width:200px}
+  .say.warn{display:none}
+  .checker{padding:18px}
+  section{padding:56px 0}
+  .about-grid .ph{height:240px}
+}
+/* ---- phone & tablet menu (hidden on laptops) ---- */
+.menuBtn{display:none;width:42px;height:42px;border-radius:12px;border:1px solid var(--line);background:var(--surface);place-items:center;flex:none}
+.menuBtn svg{width:22px;height:22px}
+.menu{position:fixed;left:0;right:0;top:0;z-index:55;background:var(--surface);border-bottom:1px solid var(--line);box-shadow:0 18px 40px rgba(19,32,26,.16);padding:76px 16px 18px;transform:translateY(-105%);transition:transform .28s cubic-bezier(.2,.8,.2,1)}
+.menu.open{transform:none}
+.menu a,.menu button.item{display:flex;align-items:center;gap:12px;width:100%;padding:14px 12px;border-radius:14px;border:0;background:none;text-decoration:none;font-size:16px;font-weight:600;color:var(--ink);text-align:left}
+.menu a:active,.menu button.item:active{background:var(--grey-soft)}
+.menu .ic2{width:36px;height:36px;border-radius:10px;background:var(--green-soft);color:var(--green);display:grid;place-items:center;flex:none}
+.menu .ic2 svg{width:18px;height:18px}
+.menu .acct{margin-top:8px;padding:14px 12px 4px;border-top:1px solid var(--line);display:flex;align-items:center;gap:12px;font-size:14px;color:var(--muted)}
+.menu .acct .btn{margin-left:auto;padding:9px 16px;font-size:14px}
+.menuShade{position:fixed;inset:0;z-index:54;background:rgba(19,32,26,.3);opacity:0;pointer-events:none;transition:opacity .25s}
+.menuShade.open{opacity:1;pointer-events:auto}
+.pageBar{display:none}
+.swipeHint{display:none}
+@media(max-width:980px){
+  .menuBtn{display:grid}
+  nav{z-index:60}
+}
+
+/* ---- phone layout ---- */
+@media(max-width:640px){
+  .wrap{width:calc(100% - 32px)}
+  .hero{padding:24px 0 40px}
+  .stats{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-top:22px}
+  .stats>div{min-width:0;background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:10px 10px 9px}
+  .stats b{font-size:17px}
+  .stats span{display:block;font-size:11px;line-height:1.3;margin-top:2px}
+  .collage{height:230px;margin-top:4px}
+  .collage .main{inset:0 0 26px 0;border-radius:22px}
+  .collage .small{display:none}
+  .say.love{left:12px;right:12px;top:auto;bottom:0;width:auto;animation:none}
+  .head{margin-bottom:22px}
+  .head h2,.h2{font-size:27px}
+  .head p{font-size:15px}
+  .steps{gap:10px}
+  .step{display:grid;grid-template-columns:42px 1fr;column-gap:14px;align-items:start;padding:16px}
+  .step .ic{grid-row:span 2;width:42px;height:42px;margin:0}
+  .step .num{display:none}
+  .step h3{font-size:16px;margin:0 0 2px}
+  .step p{font-size:14px}
+  .cats{grid-template-columns:1fr 1fr;gap:12px}
+  .cat .ph{height:108px}
+  .cat .tx{padding:10px 12px 12px}
+  .cat h3{font-size:14px;line-height:1.25}
+  .cat p{font-size:11.5px;line-height:1.35}
+  .cat .go{font-size:12px;margin-top:6px}
+  .cat .badge{top:8px;left:8px;font-size:11px;padding:3px 8px}
+  .checker{padding:14px;border-radius:22px}
+  .gate{margin:-8px 0 16px;font-size:13px;align-items:flex-start}
+  .panel{padding:16px;border-radius:18px}
+  .result{gap:14px}
+  .verdict{font-size:20px}
+  .facts{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+  .fact{border-radius:12px;padding:8px 10px;font-size:12px}
+  .fact b{display:block;font-size:13px}
+  .summary .fb{gap:6px}
+  .panel h4{font-size:12px}
+  .shops{gap:6px}
+  .about-grid .ph{height:200px}
+  .pillar{gap:12px}
+}
+/* ---- phone: less scrolling, About/FAQ as their own page ---- */
+@media(max-width:640px){
+  nav #authBtn,nav #who{display:none!important}
+  nav .wrap>.btn-primary{padding:8px 14px}
+  .collage{display:none}
+  .hero .lead{font-size:15px}
+  section{padding:44px 0}
+  .swipe{display:flex!important;overflow-x:auto;scroll-snap-type:x mandatory;scroll-padding-left:16px;-webkit-overflow-scrolling:touch;gap:12px;margin:0 -16px;padding:2px 16px 10px;scrollbar-width:none}
+  .swipe::-webkit-scrollbar{display:none}
+  .swipe>*{scroll-snap-align:start;flex:0 0 auto}
+  .steps.swipe>.step{width:78%}
+  .cats.swipe>.cat{width:44%}
+  .cats.swipe .cat .ph{height:96px}
+  .swipeHint{display:block;font-size:12px;color:var(--muted);margin-top:4px}
+  #about{display:none;position:fixed;inset:0;z-index:70;overflow-y:auto;background:var(--bg);padding:0 0 32px}
+  #about.page{display:block;animation:rise .25s ease}
+  #about .pageBar{display:flex;align-items:center;gap:10px;position:sticky;top:0;z-index:2;background:rgba(246,247,244,.95);backdrop-filter:blur(10px);border-bottom:1px solid var(--line);padding:12px 16px;margin-bottom:20px;font-weight:700}
+  #about .pageBar button{margin-left:auto;width:36px;height:36px;border-radius:50%;border:0;background:var(--grey-soft);font-size:18px}
+  #about .reveal{opacity:1;transform:none}
+  #check{border-bottom:0}
+  footer{padding:24px 0 32px}
+}
+@media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}.reveal{opacity:1;transform:none}}
+</style>
+</head>
+<body>
+<svg width="0" height="0" style="position:absolute">
+  <symbol id="i-up" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 10v11H3V10z"/><path d="M7 10l4-7c1.7 0 3 1.3 3 3v3h5.5a2 2 0 012 2.3l-1.4 8A2 2 0 0118.1 21H7"/></symbol>
+  <symbol id="i-warn" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M10.3 3.9L1.8 18a2 2 0 001.7 3h17a2 2 0 001.7-3L13.7 3.9a2 2 0 00-3.4 0z"/><path d="M12 9v4M12 17h.01"/></symbol>
+  <symbol id="i-list" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 11l3 3 8-8"/><path d="M20 12v7a2 2 0 01-2 2H5a2 2 0 01-2-2V5a2 2 0 012-2h11"/></symbol>
+  <symbol id="i-star" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2l3.1 6.3 6.9 1-5 4.9 1.2 6.8L12 17.8 5.8 21l1.2-6.8-5-4.9 6.9-1z"/></symbol>
+  <symbol id="i-chat" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/></symbol>
+  <symbol id="i-shield" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l7 3v6c0 4.5-3 7.5-7 9-4-1.5-7-4.5-7-9V6z"/><path d="M8.5 12l2.5 2.5 4.5-5"/></symbol>
+  <symbol id="i-search" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.3-4.3"/></symbol>
+  <symbol id="i-link" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 007.5.5l3-3a5 5 0 00-7-7l-1.7 1.7"/><path d="M14 11a5 5 0 00-7.5-.5l-3 3a5 5 0 007 7l1.7-1.7"/></symbol>
+  <symbol id="i-share" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><path d="M8.6 13.5l6.8 4M15.4 6.5l-6.8 4"/></symbol>
+  <symbol id="i-user" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="4"/><path d="M4 21c0-4 3.6-7 8-7s8 3 8 7"/></symbol>
+  <symbol id="i-scale" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v18M7 21h10M5 7h14M5 7l-3 7a3 3 0 006 0zM19 7l-3 7a3 3 0 006 0z"/></symbol>
+</svg>
+
+<nav id="nav">
+  <div class="wrap">
+    <a class="brand" href="#top" aria-label="TruPick home"><img src="data:image/png;base64,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" alt=""><span><span class="tru">Tru</span><span class="pick">Pick</span></span></a>
+    <div class="links">
+      <a href="#how">How it works</a>
+      <a href="#categories">Categories</a>
+      <a href="#about">About</a>
+      <a href="#faq">FAQ</a>
+    </div>
+    <span class="spacer"></span>
+    <button class="btn btn-ghost" id="authBtn" hidden onclick="openAuth('in')" aria-label="Sign in"><svg class="i"><use href="#i-user"/></svg><span class="t">Sign in</span></button>
+    <div class="who" id="who" hidden><span class="av" id="av" title=""></span><button onclick="signOutNow()">Sign out</button></div>
+    <a class="btn btn-primary" href="#check"><span>Check<span class="long"> a product</span></span></a>
+    <button class="menuBtn" id="menuBtn" aria-label="Open menu" aria-expanded="false" aria-controls="menu" onclick="toggleMenu()"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path id="mIcon" d="M4 7h16M4 12h16M4 17h16"/></svg></button>
+  </div>
+</nav>
+<div class="menuShade" id="menuShade" onclick="toggleMenu(false)"></div>
+<div class="menu" id="menu" aria-label="Menu">
+  <a href="#how" onclick="toggleMenu(false)"><span class="ic2"><svg><use href="#i-link"/></svg></span>How it works</a>
+  <a href="#categories" onclick="toggleMenu(false)"><span class="ic2"><svg><use href="#i-list"/></svg></span>Categories</a>
+  <a href="#check" onclick="toggleMenu(false);setTab('one')"><span class="ic2"><svg><use href="#i-search"/></svg></span>Check a product</a>
+  <a href="#check" onclick="toggleMenu(false);setTab('two')"><span class="ic2"><svg><use href="#i-scale"/></svg></span>Compare two products</a>
+  <button class="item" onclick="openAbout()"><span class="ic2"><svg><use href="#i-shield"/></svg></span>About TruPick</button>
+  <button class="item" onclick="openAbout('faq')"><span class="ic2"><svg><use href="#i-chat"/></svg></span>FAQ</button>
+  <div class="acct" id="menuAcct" hidden></div>
+</div>
+
+<header class="hero" id="top">
+  <div class="wrap">
+    <div>
+      <span class="eyebrow">&#9679; Pick smart. Shop with trust.</span>
+      <h1>Know what buyers think, <em>before there are any reviews.</em></h1>
+      <p class="lead">New listings on Amazon, Flipkart or Myntra often have no reviews yet. Describe the product or paste its link, and we&rsquo;ll show what buyers of similar products loved, what they complained about, and better-rated options.</p>
+      <form class="quick" onsubmit="event.preventDefault();quickGo()">
+        <input id="heroQ" placeholder="e.g. wireless earbuds with long battery" aria-label="Describe a product">
+        <button class="btn btn-primary" type="submit">Check it</button>
+      </form>
+      <div class="stats">
+        <div><b id="statProducts">12,400+</b><span>reviewed products</span></div>
+        <div><b id="statReviews">470,000+</b><span>buyer reviews read</span></div>
+        <div><b id="statCats">4</b><span>shopping categories</span></div>
+      </div>
+    </div>
+    <div class="collage" aria-hidden="true">
+      <div class="main"><img src="https://images.unsplash.com/photo-1760565030346-4b947220fe3a?w=1100&q=75&auto=format&fit=crop" alt=""></div>
+      <div class="small"><img src="https://images.unsplash.com/photo-1768987439370-bd60d3d0b28b?w=500&q=75&auto=format&fit=crop" alt=""></div>
+      <div class="say love"><small><svg class="i" style="width:14px;height:14px"><use href="#i-up"/></svg>Buyers love</small><p>Battery life: 82% of mentions are positive</p></div>
+      <div class="say warn"><small><svg class="i" style="width:14px;height:14px"><use href="#i-warn"/></svg>Check before you buy</small><p>Fit: many say it runs small</p></div>
+    </div>
+  </div>
+</header>
+
+<section class="white" id="how">
+  <div class="wrap">
+    <div class="head reveal">
+      <span class="eyebrow">How it works</span>
+      <h2>From a product name to a buying decision.</h2>
+      <p>Star ratings alone don&rsquo;t tell you much. We read what real buyers said about products just like the one you&rsquo;re looking at.</p>
+    </div>
+    <div class="steps swipe">
+      <div class="step reveal"><span class="num">01</span><div class="ic"><svg><use href="#i-link"/></svg></div><h3>Tell us the product</h3><p>Paste a product link or type a short description, like &ldquo;non-stick frying pan&rdquo;.</p></div>
+      <div class="step reveal"><span class="num">02</span><div class="ic"><svg><use href="#i-search"/></svg></div><h3>We find look-alikes</h3><p>We match it to the most similar reviewed products in the same category.</p></div>
+      <div class="step reveal"><span class="num">03</span><div class="ic"><svg><use href="#i-chat"/></svg></div><h3>You see what buyers said</h3><p>What they loved, what went wrong, what to check before buying, and better-rated options.</p></div>
+    </div>
+  </div>
+</section>
+
+<section id="categories">
+  <div class="wrap">
+    <div class="head reveal">
+      <span class="eyebrow">Categories</span>
+      <h2>Pick what you&rsquo;re shopping for.</h2>
+      <p>Each product is compared only with products of its own kind.</p>
+      <span class="swipeHint">Swipe to see all 8 &rarr;</span>
+    </div>
+    <div class="cats swipe" id="catCards">
+      <button class="cat reveal" data-key="electronics" data-ex="wireless bluetooth earbuds"><span class="badge">Coming soon</span><div class="ph"><img loading="lazy" src="https://images.unsplash.com/photo-1590658268037-6bf12165a8df?w=600&q=75&auto=format&fit=crop" alt="Wireless earbuds"></div><div class="tx"><h3>Electronics</h3><p data-count>Earbuds, chargers, mice</p><span class="go">Try an example &rarr;</span></div></button>
+      <button class="cat reveal" data-key="phones_accessories" data-ex="shockproof silicone phone case"><span class="badge">Coming soon</span><div class="ph"><img loading="lazy" src="https://images.unsplash.com/photo-1535157412991-2ef801c1748b?w=600&q=75&auto=format&fit=crop" alt="Phone cases"></div><div class="tx"><h3>Phones &amp; accessories</h3><p data-count>Cases, cables, power banks</p><span class="go">Try an example &rarr;</span></div></button>
+      <button class="cat reveal" data-key="beauty" data-ex="moisturizing shampoo for dry hair"><span class="badge">Coming soon</span><div class="ph"><img loading="lazy" src="https://images.unsplash.com/photo-1747858989102-cca0f4dc4a11?w=600&q=75&auto=format&fit=crop" alt="Shampoo bottle"></div><div class="tx"><h3>Beauty &amp; care</h3><p data-count>Hair, skin, makeup</p><span class="go">Try an example &rarr;</span></div></button>
+      <button class="cat reveal" data-key="health_household" data-ex="vitamin d3 supplement"><span class="badge">Coming soon</span><div class="ph"><img loading="lazy" src="https://images.unsplash.com/photo-1624362772755-4d5843e67047?w=600&q=75&auto=format&fit=crop" alt="Supplement capsules"></div><div class="tx"><h3>Health &amp; household</h3><p data-count>Supplements, trimmers, care</p><span class="go">Try an example &rarr;</span></div></button>
+      <button class="cat reveal" data-key="home_kitchen" data-ex="non stick frying pan"><span class="badge">Coming soon</span><div class="ph"><img loading="lazy" src="https://images.unsplash.com/photo-1777499455310-80354aa1021f?w=600&q=75&auto=format&fit=crop" alt="Kitchen utensils"></div><div class="tx"><h3>Home &amp; kitchen</h3><p data-count>Cookware, bottles, storage</p><span class="go">Try an example &rarr;</span></div></button>
+      <button class="cat reveal" data-key="sports_fitness" data-ex="non slip yoga mat"><span class="badge">Coming soon</span><div class="ph"><img loading="lazy" src="https://images.unsplash.com/photo-1763004871583-4183d64096b1?w=600&q=75&auto=format&fit=crop" alt="Yoga mats"></div><div class="tx"><h3>Sports &amp; fitness</h3><p data-count>Yoga, gym, outdoor gear</p><span class="go">Try an example &rarr;</span></div></button>
+      <button class="cat reveal" data-key="fashion_footwear" data-ex="comfortable running shoes"><span class="badge">Coming soon</span><div class="ph"><img loading="lazy" src="https://images.unsplash.com/photo-1525966222134-fcfa99b8ae77?w=600&q=75&auto=format&fit=crop" alt="Sneaker"></div><div class="tx"><h3>Fashion &amp; footwear</h3><p data-count>Shoes, jackets, bags</p><span class="go">Try an example &rarr;</span></div></button>
+      <button class="cat reveal" data-key="womens_clothing" data-ex="linen summer dress"><span class="badge">Coming soon</span><div class="ph"><img loading="lazy" src="https://images.unsplash.com/photo-1496747611176-843222e1e57c?w=600&q=75&auto=format&fit=crop" alt="Floral dress"></div><div class="tx"><h3>Women&rsquo;s clothing</h3><p data-count>Dresses, tops, jeans</p><span class="go">Try an example &rarr;</span></div></button>
+    </div>
+  </div>
+</section>
+
+<section class="white" id="check">
+  <div class="wrap">
+    <div class="head reveal">
+      <span class="eyebrow">Product checker</span>
+      <h2>Check a product, or compare two.</h2>
+      <p>Describe it in a few words or paste the product page link.</p>
+    </div>
+    <p class="gate" id="gate" hidden><svg class="i"><use href="#i-shield"/></svg><span>A free account is needed to check products. <button onclick="openAuth('up')">Create one</button> or <button onclick="openAuth('in')">sign in</button>.</span></p>
+    <div class="checker">
+      <div class="tabs"><button id="t1" class="on" onclick="setTab('one')">Check one</button><button id="t2" onclick="setTab('two')">Compare two</button></div>
+
+      <div id="oneForm">
+        <form class="bar" onsubmit="event.preventDefault();go()">
+          <select id="cat" aria-label="Category"><option value="auto">Auto-detect category</option></select>
+          <div class="field"><input id="q" placeholder="Product description or link, e.g. linen summer dress" aria-label="Product"><button class="btn btn-primary" type="submit" id="goBtn">Check</button></div>
+        </form>
+        <div class="chips" id="chips"></div>
+      </div>
+
+      <div id="twoForm" class="hidden">
+        <form onsubmit="event.preventDefault();compare()">
+          <div class="cmp-fields">
+            <div class="field"><span class="tag">A</span><input id="qa" placeholder="First product or link" aria-label="First product"></div>
+            <span class="vs">VS</span>
+            <div class="field"><span class="tag">B</span><input id="qb" placeholder="Second product or link" aria-label="Second product"></div>
+          </div>
+          <div class="bar" style="margin-top:10px"><select id="cat2" aria-label="Category"><option value="auto">Auto-detect category</option></select><button class="btn btn-primary" type="submit" id="cmpBtn">Compare</button></div>
+        </form>
+        <p class="hint">Tip: compare two products of the same kind, e.g. two pairs of earbuds.</p>
+      </div>
+
+      <p class="status" id="status"></p>
+
+      <div class="skel" id="skel" hidden aria-hidden="true"><div class="a"></div><div class="b"></div><div class="c"></div></div>
+      <!-- single result -->
+      <div class="result hidden" id="result">
+        <div class="panel summary pop">
+          <div style="min-width:0">
+            <p class="forq"><svg class="i"><use href="#i-search"/></svg><span>Results for</span><b id="forq"></b></p>
+            <div class="verdict"><span class="dot" id="vdot"></span><span id="verdict"></span></div>
+            <div class="facts" id="facts"></div>
+          </div>
+          <div class="fb"><button class="share" onclick="shareResult()"><svg class="i"><use href="#i-share"/></svg>Share</button><span>Helpful?</span><button onclick="sendFb(true)">Yes</button><button onclick="sendFb(false)">No</button><em id="fbmsg"></em></div>
+        </div>
+        <div class="two">
+          <div class="panel pop">
+            <h4><svg class="i"><use href="#i-chat"/></svg>What buyers say</h4>
+            <div class="says">
+              <div class="love"><h5><svg class="i"><use href="#i-up"/></svg>Buyers love</h5><div id="love"></div></div>
+              <div class="bad"><h5><svg class="i"><use href="#i-warn"/></svg>Common complaints</h5><div id="complain"></div></div>
+            </div>
+          </div>
+          <div class="panel pop">
+            <h4><svg class="i"><use href="#i-list"/></svg>Check before you buy</h4>
+            <div class="prog"><span id="progTxt">0 of 0 checked</span><div class="pbar"><i id="progBar"></i></div></div>
+            <ul class="check" id="checklist"></ul>
+            <p class="ready" id="ready" hidden><svg class="i"><use href="#i-shield"/></svg>All checked. You&rsquo;re ready to decide.</p>
+          </div>
+        </div>
+        <div class="panel pop">
+          <h4><svg class="i"><use href="#i-star"/></svg>Better-rated alternatives</h4>
+          <div class="alts" id="alts"></div>
+          <details class="more" style="margin-top:16px">
+            <summary>See the similar products we compared &darr;</summary>
+            <div id="list" style="margin-top:10px"></div>
+          </details>
+          <div class="shops" id="shops"></div>
+        </div>
+      </div>
+
+      <!-- compare result -->
+      <div class="result hidden" id="cmpResult">
+        <div class="winner pop" id="winner"></div>
+        <div class="cmp" id="cmpCols"></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="about">
+  <div class="pageBar"><span>About TruPick</span><button onclick="closeAbout()" aria-label="Close">&times;</button></div>
+  <div class="wrap about-grid">
+    <div class="reveal">
+      <span class="eyebrow">About</span>
+      <h2 class="h2">Why we built TruPick</h2>
+      <p style="color:var(--muted);font-size:17px">Every day, thousands of new products go on sale with zero reviews, and fake or paid reviews make the rest hard to trust. We wanted a simple way to answer one question before checkout: <b style="color:var(--ink)">what will this probably be like?</b></p>
+      <div class="ph"><img loading="lazy" src="https://images.unsplash.com/photo-1563013544-824ae1b704d3?w=900&q=75&auto=format&fit=crop" alt="Paying for an online order"></div>
+    </div>
+    <div class="reveal">
+      <h3 style="font-size:20px;margin-top:48px">Our approach</h3>
+      <div class="pillars">
+        <div class="pillar"><div class="ic"><svg class="i"><use href="#i-search"/></svg></div><div><h3>Learn from look-alikes</h3><p>Products of the same kind tend to share the same strengths and problems. We match yours to the closest reviewed ones.</p></div></div>
+        <div class="pillar"><div class="ic"><svg class="i"><use href="#i-chat"/></svg></div><div><h3>Listen to real buyers</h3><p>We read hundreds of thousands of real buyer reviews and pull out what people actually praise and complain about.</p></div></div>
+        <div class="pillar"><div class="ic"><svg class="i"><use href="#i-shield"/></svg></div><div><h3>Be upfront about certainty</h3><p>Every result says how close the match is. When we don&rsquo;t have enough data, we say so instead of guessing.</p></div></div>
+      </div>
+      <h3 style="font-size:20px;margin:36px 0 14px" id="faq">Questions</h3>
+      <div class="faq">
+        <details><summary>Is it free?</summary><p>Yes. There&rsquo;s no sign-up and no limit.</p></details>
+        <details><summary>How accurate is it?</summary><p>It shows what usually happens with similar products, not a guarantee for this exact item. Each result shows a confidence level; treat a weak match as a rough guide.</p></details>
+        <details><summary>Where does the data come from?</summary><p>Public review datasets: Amazon Reviews 2023 from UC San Diego&rsquo;s McAuley Lab, and a women&rsquo;s clothing reviews dataset from Kaggle. We use only the reviews, never personal data.</p></details>
+        <details><summary>Does it work for Indian brands?</summary><p>Partly. Most reference products are sold on Amazon US, so the comparison is by product type rather than brand. A boAt earbud is compared with similar earbuds.</p></details>
+        <details><summary>Do you store my searches?</summary><p>Your recent searches stay in your own browser. We only save a search if you click Yes or No on &ldquo;Helpful?&rdquo;, and only to improve results.</p></details>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="modal" id="authModal" hidden role="dialog" aria-modal="true" aria-labelledby="authTitle" onclick="if(event.target===this)closeAuth()">
+  <div class="sheet">
+    <button class="x" onclick="closeAuth()" aria-label="Close">&times;</button>
+    <div class="logo"><img id="authLogo" alt=""><span><span style="color:#1f5a46">Tru</span><span style="color:#4fa57f">Pick</span></span></div>
+    <h3 id="authTitle">Sign in</h3>
+    <p class="sub" id="authSub">Sign in to check and compare products.</p>
+    <div id="authMain">
+      <button class="gbtn" onclick="googleSignIn()"><svg viewBox="0 0 48 48"><path fill="#FFC107" d="M43.6 20.5H42V20H24v8h11.3C33.7 32.7 29.2 36 24 36c-6.6 0-12-5.4-12-12s5.4-12 12-12c3.1 0 5.8 1.2 7.9 3.1l5.7-5.7C34 6.1 29.3 4 24 4 12.9 4 4 12.9 4 24s8.9 20 20 20 20-8.9 20-20c0-1.3-.1-2.4-.4-3.5z"/><path fill="#FF3D00" d="M6.3 14.7l6.6 4.8C14.7 15.1 19 12 24 12c3.1 0 5.8 1.2 7.9 3.1l5.7-5.7C34 6.1 29.3 4 24 4 16.3 4 9.7 8.3 6.3 14.7z"/><path fill="#4CAF50" d="M24 44c5.2 0 9.9-2 13.4-5.2l-6.2-5.2C29.2 35.1 26.7 36 24 36c-5.2 0-9.6-3.3-11.3-8l-6.5 5C9.5 39.6 16.2 44 24 44z"/><path fill="#1976D2" d="M43.6 20.5H42V20H24v8h11.3c-.8 2.2-2.2 4.2-4.1 5.6l6.2 5.2C37 39.2 44 34 44 24c0-1.3-.1-2.4-.4-3.5z"/></svg>Continue with Google</button>
+      <div class="or">or use email</div>
+      <form onsubmit="event.preventDefault();emailSubmit()">
+        <label for="aEmail">Email</label>
+        <input class="in" id="aEmail" type="email" autocomplete="email" required>
+        <div id="pwWrap"><label for="aPass">Password</label>
+        <input class="in" id="aPass" type="password" autocomplete="current-password" minlength="6" required></div>
+        <button class="btn btn-primary" type="submit" id="aSubmit">Sign in</button>
+      </form>
+      <div class="links2">
+        <button type="button" id="aSwitch" onclick="setAuthMode(authMode === 'in' ? 'up' : 'in')">New here? Create an account</button>
+        <button type="button" id="aForgot" onclick="setAuthMode('reset')">Forgot password?</button>
+      </div>
+    </div>
+    <div id="authVerify" hidden>
+      <p class="sub">We sent a verification link to <b id="vEmail"></b>. Open it, then come back and tap the button below.</p>
+      <button class="btn btn-primary" onclick="checkVerified()">I&rsquo;ve verified my email</button>
+      <div class="links2"><button type="button" onclick="resendVerify()">Resend the link</button><button type="button" onclick="signOutNow()">Use another account</button></div>
+    </div>
+    <p class="msg" id="aMsg"></p>
+    <p class="fine" id="fineTxt">We never see your Google password.</p>
+  </div>
+</div>
+
+<div class="toast" id="toast" role="status"></div>
+<footer>
+  <div class="wrap">
+    <span>&copy; 2026 TruPick &middot; Pick smart. Shop with trust.</span>
+    <span>Photos: <a href="https://unsplash.com" target="_blank" rel="noopener">Unsplash</a> &middot; Data: Amazon Reviews 2023 (McAuley Lab, UCSD), Kaggle</span>
+  </div>
+</footer>
+
+<script>
+/* ===== Settings for the live site =====
+   API_URL: the online server address (Hugging Face). Leave '' to use the server on this computer.
+   FIREBASE: copy from Firebase console > Project settings > Your apps. Leave apiKey '' to turn login off. */
+const CONFIG = {
+  API_URL: 'https://trupick-api.onrender.com',
+  FIREBASE: { apiKey: 'AIzaSyBJ-hWI-kAZ1UQgYyZvgOU2F2VKr2Ap-Xg', authDomain: 'trupick-77d3e.firebaseapp.com', projectId: 'trupick-77d3e', appId: '1:1092309021674:web:42d0d9bcae188c5f02b893' }
+};
+const API = CONFIG.API_URL ? CONFIG.API_URL.replace(/\/$/, '')
+  : (location.protocol === 'file:' || !location.hostname) ? 'http://127.0.0.1:8000'
+  : location.protocol + '//' + location.hostname + ':8000';
+const AUTH_ON = !!CONFIG.FIREBASE.apiKey;
+const $ = id => document.getElementById(id);
+const esc = s => String(s == null ? '' : s).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const isLink = v => /^https?:\/\//i.test(v);
+let last = null, available = new Set();
+
+/* nav border + reveal on scroll */
+addEventListener('scroll', () => $('nav').classList.toggle('scrolled', scrollY > 10));
+const io = 'IntersectionObserver' in window ? new IntersectionObserver(es => es.forEach(e => {
+  if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); }
+}), { threshold: .12 }) : null;
+document.querySelectorAll('.reveal').forEach(el => io ? io.observe(el) : el.classList.add('in'));
+
+/* categories from the server */
+async function loadCats() {
+  try {
+    const cats = await (await fetch(API + '/categories')).json();
+    const opts = cats.map(c => '<option value="' + esc(c.key) + '">' + esc(c.key === 'auto' ? 'Auto-detect category' : c.label) + '</option>').join('');
+    $('cat').innerHTML = opts; $('cat2').innerHTML = opts;
+    let products = 0, amazon = 0, n = 0;
+    cats.forEach(c => {
+      if (c.key === 'auto') return;
+      available.add(c.key); n++;
+      products += c.products || 0;
+      if (c.key !== 'womens_clothing') amazon++;
+      const card = document.querySelector('.cat[data-key="' + c.key + '"] [data-count]');
+      if (card && c.products) card.textContent = c.products.toLocaleString('en-IN') + ' products · ' + card.textContent.replace(/^.*· /, '');
+    });
+    document.querySelectorAll('.cat').forEach(c => c.classList.toggle('soon', !available.has(c.dataset.key)));
+    if (products) {
+      $('statProducts').textContent = (Math.floor(products / 100) * 100).toLocaleString('en-IN') + '+';
+      const reviews = amazon * 150000 + (available.has('womens_clothing') ? 22600 : 0);
+      $('statReviews').textContent = (Math.floor(reviews / 10000) * 10000).toLocaleString('en-IN') + '+';
+      $('statCats').textContent = n;
+    }
+  } catch (e) {}
+}
+document.querySelectorAll('.cat').forEach(card => card.onclick = () => {
+  setTab('one');
+  if (!available.has(card.dataset.key)) {
+    $('check').scrollIntoView({ behavior: 'smooth' });
+    status(card.querySelector('h3').textContent + ' is coming soon. Try another category.', true); return;
+  }
+  $('cat').value = card.dataset.key; $('q').value = card.dataset.ex;
+  $('check').scrollIntoView({ behavior: 'smooth' }); go();
+});
+
+/* recent searches (this browser only) */
+function getHist() { try { return JSON.parse(localStorage.getItem('pte_hist2') || '[]'); } catch (e) { return []; } }
+function addHist(t) {
+  const h = getHist().filter(x => x !== t); h.unshift(t);
+  try { localStorage.setItem('pte_hist2', JSON.stringify(h.slice(0, 5))); } catch (e) {}
+  renderChips();
+}
+function renderChips() {
+  const h = getHist();
+  const items = h.length ? h : ['wireless bluetooth earbuds', 'non stick frying pan', 'sunscreen spf 50', 'linen summer dress'];
+  $('chips').innerHTML = '<span>' + (h.length ? 'Recent:' : 'Try:') + '</span>' +
+    items.map((t, i) => '<button type="button" data-i="' + i + '">' + esc(t.length > 38 ? t.slice(0, 36) + '…' : t) + '</button>').join('');
+  $('chips').querySelectorAll('button').forEach(b => b.onclick = () => { $('q').value = items[+b.dataset.i]; $('cat').value = 'auto'; go(); });
+}
+
+function setTab(t) {
+  $('t1').classList.toggle('on', t === 'one'); $('t2').classList.toggle('on', t === 'two');
+  $('oneForm').classList.toggle('hidden', t !== 'one'); $('twoForm').classList.toggle('hidden', t !== 'two');
+  $('result').classList.add('hidden'); $('cmpResult').classList.add('hidden'); status('');
+}
+function status(t, err) { $('status').textContent = t; $('status').className = 'status' + (err ? ' err' : ''); }
+function quickGo() {
+  const v = $('heroQ').value.trim(); if (!v) { $('heroQ').focus(); return; }
+  setTab('one'); $('q').value = v; $('cat').value = 'auto';
+  $('check').scrollIntoView({ behavior: 'smooth' }); go();
+}
+
+let slowTimer = null;
+function slowHint(on) {
+  clearTimeout(slowTimer);
+  if (on && CONFIG.API_URL) slowTimer = setTimeout(() => status('Waking up TruPick\u2019s server\u2026 the first check after a quiet spell can take up to a minute.'), 5000);
+}
+async function ask(v, category) {
+  const link = isLink(v);
+  slowHint(true);
+  let r;
+  try {
+    r = await fetch(API + (link ? '/predict-link' : '/predict-similar'), {
+      method: 'POST', headers: await authHeaders(),
+      body: JSON.stringify(link ? { url: v, top_n: 8, category } : { description: v, top_n: 8, category })
+    });
+  } catch (e) { slowHint(false); throw e; }
+  if (!r.ok) {
+    const j = await r.json().catch(() => ({}));
+    if (r.status === 401 || r.status === 403) openAuth('in', typeof j.detail === 'string' ? j.detail : '');
+    slowHint(false);
+    return { error: typeof j.detail === 'string' ? j.detail : 'Something went wrong. Please try again.' };
+  }
+  slowHint(false);
+  return r.json();
+}
+
+const TONES = { green: ['#0f6b4f', '#e4f2eb'], amber: ['#b7791f', '#fdf4dc'], red: ['#b42318', '#fdeceb'], grey: ['#8a968f', '#eef1ef'] };
+function verdictFor(d) {
+  if (d.risk === 'Unclear') return ['Not enough similar products to judge this one.', 'grey'];
+  if (d.risk === 'High risk') return ['Think twice. Buyers of similar products were often let down.', 'red'];
+  if (d.risk === 'Medium risk') return ['Okay, but compare a few options before buying.', 'amber'];
+  return [d.confidence === 'High' ? 'Looks like a good buy.' : 'Likely a good buy.', 'green'];
+}
+const stars = d => d.rating_low.toFixed(1) + '–' + d.rating_high.toFixed(1) + '★';
+
+async function go() {
+  const v = $('q').value.trim();
+  if (!v) { status('Type a product description or paste a link first.', true); $('q').focus(); return; }
+  if (!requireLogin(go)) return;
+  const key = ($('cat').value || 'auto') + '|' + v.toLowerCase();
+  if (cache.has(key)) { show(cache.get(key), v); return; }   // same check again: instant
+  status(isLink(v) ? 'Reading the product page…' : 'Reading what buyers said about similar products…');
+  $('goBtn').disabled = true; $('result').classList.add('hidden'); $('skel').hidden = false;
+  try {
+    const d = await ask(v, $('cat').value || 'auto');
+    if (d.error) { status(d.error + (isLink(v) ? ' Try typing the product name instead.' : ''), true); return; }
+    cache.set(key, d); if (cache.size > 30) cache.delete(cache.keys().next().value);
+    show(d, v);
+  } catch (e) {
+    status(CONFIG.API_URL ? 'Can’t reach TruPick right now. Please try again in a minute.' : 'Can’t reach the checker. Start the server (py -m uvicorn main:app --reload) and try again.', true);
+  } finally { $('goBtn').disabled = false; $('skel').hidden = true; }
+}
+const cache = new Map();
+
+function aspectHTML(list, kind) {
+  if (!list || !list.length) return '<p class="empty">' + (kind === 'love' ? 'No clear favourite among similar products.' : 'No common complaints among similar products.') + '</p>';
+  return list.map(x => '<div class="aspect"><div class="row">' + esc(x.aspect) + '<span>' + x.percent + '% ' + (kind === 'love' ? 'positive' : 'negative') + '</span></div>' +
+    '<div class="meter"><i style="width:' + x.percent + '%"></i></div>' + (x.quote ? '<q>' + esc(x.quote) + '</q>' : '') + '</div>').join('');
+}
+
+function show(d, v) {
+  const [text, tone] = verdictFor(d);
+  const [c, soft] = TONES[tone];
+  $('vdot').style.setProperty('--tone', c); $('vdot').style.setProperty('--tone-soft', soft);
+  $('verdict').textContent = text;
+  const used = (d.buyers_say || {}).products_used || (d.similar_products || []).length;
+  $('facts').innerHTML = [
+    ['Likely rating', stars(d)], ['Match', d.confidence], ['Category', d.category_label],
+    [d.source === 'reviews' ? 'Real ratings' : 'Based on', d.source === 'reviews' ? Number(d.page_reviews).toLocaleString('en-IN') : used + ' similar products']
+  ].map(f => '<span class="fact">' + esc(f[0]) + ': <b>' + esc(f[1]) + '</b></span>').join('');
+
+  const say = d.buyers_say || { love: [], complain: [] };
+  $('love').innerHTML = aspectHTML(say.love, 'love');
+  $('complain').innerHTML = aspectHTML(say.complain, 'bad');
+  $('checklist').innerHTML = (d.checklist || []).map(x => '<li><span class="box" role="checkbox" aria-checked="false" tabindex="0"></span><span>' +
+    (x.aspect ? '<b>' + esc(x.aspect) + '</b>' : '') + esc(x.tip) +
+    (x.why ? '<small class="why ' + esc(x.kind || '') + '">' + esc(x.why) + '</small>' : '') + '</span></li>').join('');
+  $('checklist').querySelectorAll('.box').forEach(b => b.onclick = b.onkeydown = e => {
+    if (e.type === 'keydown' && e.key !== ' ' && e.key !== 'Enter') return;
+    e.preventDefault(); const li = b.parentElement; li.classList.toggle('done'); b.setAttribute('aria-checked', li.classList.contains('done'));
+    updateProgress();
+  });
+  updateProgress();
+  $('forq').textContent = d.page_text && d.read_from !== 'link' ? d.page_text.slice(0, 90) : v;
+  $('forq').title = v;
+  lastResult = { d, v };
+
+  const alts = d.alternatives || [];
+  $('alts').innerHTML = alts.length ? alts.map(a => {
+    const q = encodeURIComponent(a.title.split(/[,(|\-–]/)[0].split(/\s+/).slice(0, 8).join(' '));
+    return '<div class="alt"><div class="t" title="' + esc(a.title) + '">' + esc(a.title) + '</div><div class="m"><b>' + a.rating.toFixed(1) + '★</b> · ' + a.reviews.toLocaleString('en-IN') + ' reviews</div>' +
+      '<div class="lk"><a href="https://www.amazon.in/s?k=' + q + '" target="_blank" rel="noopener">Amazon ↗</a><a href="https://www.flipkart.com/search?q=' + q + '" target="_blank" rel="noopener">Flipkart ↗</a></div></div>';
+  }).join('') : '<p class="empty" style="grid-column:1/-1">No clearly better-rated products among the close matches. This one is in line with similar products.</p>';
+
+  $('list').innerHTML = (d.similar_products || []).map(x => {
+    const id = String(x['Clothing ID']); const t = x.title || ('Product #' + id.slice(-4));
+    return '<div class="item"><span class="r">' + x.Rating.toFixed(1) + '★</span><span class="t" title="' + esc(t) + '">' + esc(t) + '</span><em>' + Math.round(x.similarity * 100) + '% match</em></div>';
+  }).join('');
+  buildShops(d.page_text || v, d.category);
+
+  status(!d.page_text ? '' : d.read_from === 'link'
+    ? 'The shop didn\u2019t let us read the page, so we used the product name in the link: \u201c' + d.page_text.slice(0, 120) + '\u201d'
+    : 'Read from page: ' + d.page_text.slice(0, 140));
+  last = { input: v, rating: d.predicted_rating };
+  document.querySelectorAll('.fb button').forEach(b => b.disabled = false); $('fbmsg').textContent = '';
+  $('result').classList.remove('hidden');
+  $('result').querySelectorAll('.pop').forEach((el, i) => { el.style.animation = 'none'; void el.offsetWidth; el.style.animation = ''; el.style.animationDelay = (i * 80) + 'ms'; });
+  addHist(v);
+  $('result').scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+}
+
+function updateProgress() {
+  const all = $('checklist').querySelectorAll('li').length, done = $('checklist').querySelectorAll('li.done').length;
+  $('progTxt').textContent = done + ' of ' + all + ' checked';
+  $('progBar').style.width = (all ? 100 * done / all : 0) + '%';
+  $('ready').hidden = !all || done < all;
+}
+let lastResult = null;
+function toast(t) { const el = $('toast'); el.textContent = t; el.classList.add('show'); clearTimeout(el._t); el._t = setTimeout(() => el.classList.remove('show'), 2200); }
+async function shareResult() {
+  if (!lastResult) return;
+  const { d, v } = lastResult, say = d.buyers_say || {};
+  const lines = [
+    'TruPick check: ' + (d.page_text && d.read_from !== 'link' ? d.page_text.slice(0, 80) : v),
+    verdictFor(d)[0] + ' (likely ' + stars(d) + ')',
+    say.love && say.love.length ? 'Buyers love: ' + say.love.map(x => x.aspect).join(', ') : '',
+    say.complain && say.complain.length ? 'Common complaints: ' + say.complain.map(x => x.aspect).join(', ') : '',
+    (d.checklist || []).filter(x => x.aspect).length ? 'Check before buying: ' + d.checklist.filter(x => x.aspect).map(x => x.aspect).join(', ') : ''
+  ].filter(Boolean);
+  const url = location.protocol.startsWith('http') ? location.origin + location.pathname : '';
+  const text = lines.join('\n');
+  try {
+    if (navigator.share) { await navigator.share({ title: 'TruPick', text, url }); return; }
+    await navigator.clipboard.writeText(text + (url ? '\n' + url : ''));
+    toast('Copied! Paste it anywhere.');
+  } catch (e) { if (e && e.name !== 'AbortError') toast('Couldn\u2019t share. Try again.'); }
+}
+
+/* compare two */
+async function compare() {
+  const a = $('qa').value.trim(), b = $('qb').value.trim();
+  if (!a || !b) { status('Enter both products to compare.', true); return; }
+  if (!requireLogin(compare)) return;
+  status('Comparing…'); $('cmpBtn').disabled = true; $('cmpResult').classList.add('hidden');
+  try {
+    const cat = $('cat2').value || 'auto';
+    const [da, db] = await Promise.all([ask(a, cat), ask(b, cat)]);
+    if (da.error || db.error) { status((da.error || db.error) + ' Try typing the product names instead.', true); return; }
+    showCompare([da, db], [a, b]); status('');
+  } catch (e) {
+    status('Can’t reach TruPick right now. Please try again in a minute.', true);
+  } finally { $('cmpBtn').disabled = false; }
+}
+function showCompare(ds, names) {
+  const [A, B] = ds;
+  const neg = d => ((d.buyers_say || {}).complain || []).reduce((s, x) => s + x.percent, 0);
+  let pick = -1, why = '';
+  const diff = A.predicted_rating - B.predicted_rating;
+  if (A.risk === 'Unclear' || B.risk === 'Unclear') why = 'Too little data on one of them to call it. See the details below.';
+  else if (A.category !== B.category) why = 'These look like different kinds of products, so a fair comparison isn’t possible.';
+  else if (Math.abs(diff) < 0.05) {
+    const na = neg(A), nb = neg(B);
+    if (Math.abs(na - nb) >= 20) { pick = na < nb ? 0 : 1; why = 'Similar ratings, but buyers of products like ' + 'AB'[pick] + ' complain less.'; }
+    else why = 'Too close to call. Both are rated about the same by buyers of similar products.';
+  } else {
+    pick = diff > 0 ? 0 : 1;
+    const w = ds[pick];
+    const love = ((w.buyers_say || {}).love || [])[0];
+    why = 'Product ' + 'AB'[pick] + ' looks like the safer pick: similar products are rated about ' + Math.abs(diff).toFixed(1) + '★ higher' + (love ? ', and buyers especially like the ' + love.aspect.toLowerCase() + '.' : '.');
+  }
+  $('winner').className = 'winner pop' + (pick < 0 ? ' even' : '');
+  $('winner').innerHTML = '<svg><use href="#i-scale"/></svg><span>' + esc(why) + '</span>';
+  $('cmpCols').innerHTML = ds.map((d, i) => {
+    const [text, tone] = verdictFor(d);
+    const say = d.buyers_say || {};
+    const pros = (say.love || []).slice(0, 3).map(x => '<li>' + esc(x.aspect) + ' <span style="color:var(--muted)">(' + x.percent + '% positive)</span></li>').join('');
+    const cons = (say.complain || []).slice(0, 3).map(x => '<li class="neg">' + esc(x.aspect) + ' <span style="color:var(--muted)">(' + x.percent + '% negative)</span></li>').join('');
+    const title = d.page_text || names[i];
+    return '<div class="panel pop' + (i === pick ? ' pick' : '') + '"><span class="crown">Safer pick</span><h4>Product ' + 'AB'[i] + '</h4><h3 title="' + esc(title) + '">' + esc(title) + '</h3>' +
+      '<div class="tagline" style="--tone:' + TONES[tone][0] + '"><span class="dot"></span>' + esc(text) + '</div>' +
+      '<div class="facts" style="margin-top:0"><span class="fact">Likely rating: <b>' + stars(d) + '</b></span><span class="fact">Match: <b>' + esc(d.confidence) + '</b></span></div>' +
+      '<ul>' + (pros || '') + (cons || '') + (!pros && !cons ? '<li style="color:var(--muted)">No clear buyer opinions yet.</li>' : '') + '</ul></div>';
+  }).join('');
+  $('cmpResult').classList.remove('hidden');
+  $('cmpResult').scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+}
+
+/* shop search links */
+const gs = dom => q => 'https://www.google.com/search?q=' + q + '+site%3A' + dom;
+const SHOPS = [
+  ['Amazon', q => 'https://www.amazon.in/s?k=' + q, ['all']],
+  ['Flipkart', q => 'https://www.flipkart.com/search?q=' + q, ['all']],
+  ['Myntra', (q, s) => 'https://www.myntra.com/' + s + '?rawQuery=' + q, ['womens_clothing', 'fashion_footwear']],
+  ['Ajio', q => 'https://www.ajio.com/search/?text=' + q, ['womens_clothing', 'fashion_footwear']],
+  ['Nykaa', q => 'https://www.nykaa.com/search/result/?q=' + q, ['beauty']],
+  ['Croma', gs('croma.com'), ['electronics', 'phones_accessories']],
+  ['Reliance Digital', gs('reliancedigital.in'), ['electronics', 'phones_accessories']],
+  ['Decathlon', gs('decathlon.in'), ['sports_fitness']],
+  ['Pepperfry', gs('pepperfry.com'), ['home_kitchen']],
+  ['1mg', gs('1mg.com'), ['health_household']],
+  ['Purplle', gs('purplle.com'), ['beauty']],
+  ['Meesho', q => 'https://www.meesho.com/search?q=' + q, ['womens_clothing', 'fashion_footwear', 'beauty', 'home_kitchen']]
+];
+function buildShops(text, cat) {
+  const q0 = String(text).split(/\s[-|–]\s|\sBuy\s/i)[0].trim().split(/\s+/).slice(0, 8).join(' ');
+  const slug = q0.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '');
+  const q = encodeURIComponent(q0);
+  const fit = SHOPS.filter(s => s[2].includes('all') || s[2].includes(cat));
+  $('shops').innerHTML = '<span style="font-size:13px;color:var(--muted);align-self:center">Search this product on:</span>' +
+    fit.map(s => '<a href="' + s[1](q, slug) + '" target="_blank" rel="noopener">' + s[0] + ' ↗</a>').join('');
+}
+
+/* feedback */
+async function sendFb(ok) {
+  if (!last) return;
+  document.querySelectorAll('.fb button').forEach(b => b.disabled = true);
+  let saved = false;
+  try {
+    const r = await fetch(API + '/feedback', { method: 'POST', headers: await authHeaders(),
+      body: JSON.stringify({ description: last.input, predicted_rating: last.rating, was_right: ok }) });
+    saved = r.ok;
+  } catch (e) {}
+  $('fbmsg').textContent = saved ? 'Thanks for the feedback!' : 'Couldn’t save your feedback. Please try again.';
+}
+
+/* ===== Sign-in (Firebase) ===== */
+let fb = null, auth = null, user = null, pending = null, authMode = 'in';
+const FB_VER = '10.14.1';
+const isVerified = u => !!u && (u.emailVerified || u.providerData.some(p => p.providerId !== 'password'));
+const signedIn = () => !AUTH_ON || isVerified(user);
+async function authHeaders() {
+  const h = { 'Content-Type': 'application/json' };
+  if (AUTH_ON && user) h.Authorization = 'Bearer ' + await user.getIdToken();
+  return h;
+}
+function requireLogin(action) {
+  if (signedIn()) return true;
+  pending = action; openAuth(user && !isVerified(user) ? 'verify' : 'in'); return false;
+}
+async function initAuth() {
+  if (!AUTH_ON) return;
+  $('authBtn').hidden = false; $('gate').hidden = false;
+  try {
+    const app = await import('https://www.gstatic.com/firebasejs/' + FB_VER + '/firebase-app.js');
+    fb = await import('https://www.gstatic.com/firebasejs/' + FB_VER + '/firebase-auth.js');
+    auth = fb.getAuth(app.initializeApp(CONFIG.FIREBASE));
+    fb.getRedirectResult(auth).catch(e => authMsg(friendly(e), true));
+    fb.onAuthStateChanged(auth, u => {
+      user = u; renderUser();
+      if (signedIn() && !$('authModal').hidden) closeAuth();
+      if (signedIn() && pending) { const p = pending; pending = null; p(); }
+    });
+  } catch (e) { status('Sign-in couldn’t load. Check your internet connection and refresh.', true); }
+}
+function renderUser() {
+  const ok = signedIn();
+  $('authBtn').hidden = ok; $('who').hidden = !ok; $('gate').hidden = ok;
+  if (ok && user) {
+    const name = user.displayName || user.email || '';
+    $('av').title = name;
+    $('av').innerHTML = user.photoURL ? '<img src="' + esc(user.photoURL) + '" alt="" referrerpolicy="no-referrer">' : esc((name[0] || '?').toUpperCase());
+  }
+}
+function setAuthMode(m) {
+  authMode = m;
+  const t = { in: ['Sign in', 'Sign in to check and compare products.'], up: ['Create your account', 'Free. Takes 30 seconds.'],
+              reset: ['Reset your password', 'We’ll email you a link to set a new password.'], verify: ['Verify your email', ''] }[m];
+  $('authTitle').textContent = t[0]; $('authSub').textContent = t[1]; $('authSub').hidden = !t[1];
+  $('authMain').hidden = m === 'verify'; $('authVerify').hidden = m !== 'verify';
+  $('pwWrap').hidden = m === 'reset'; $('aPass').required = m !== 'reset';
+  $('aPass').autocomplete = m === 'up' ? 'new-password' : 'current-password';
+  $('aSubmit').textContent = { in: 'Sign in', up: 'Create account', reset: 'Send reset link' }[m] || '';
+  $('aSwitch').textContent = m === 'in' ? 'New here? Create an account' : 'Have an account? Sign in';
+  $('aForgot').hidden = m !== 'in';
+  if (m === 'verify' && user) $('vEmail').textContent = user.email;
+  authMsg('');
+}
+function openAuth(m, msg) {
+  if (!AUTH_ON) return;
+  setAuthMode(m || 'in'); if (msg) authMsg(msg, true);
+  $('authModal').hidden = false; document.body.style.overflow = 'hidden';
+  setTimeout(() => (m === 'verify' ? null : $('aEmail').focus()), 50);
+}
+function closeAuth() { $('authModal').hidden = true; document.body.style.overflow = ''; }
+function authMsg(t, err, ok) { $('aMsg').textContent = t || ''; $('aMsg').className = 'msg' + (err ? ' err' : ok ? ' ok' : ''); }
+function friendly(e) {
+  const c = (e && e.code) || '';
+  return ({
+    'auth/invalid-credential': 'Wrong email or password.', 'auth/wrong-password': 'Wrong email or password.',
+    'auth/user-not-found': 'No account with that email. Create one instead.', 'auth/invalid-email': 'That email address doesn’t look right.',
+    'auth/email-already-in-use': 'An account with this email already exists. Sign in instead.',
+    'auth/weak-password': 'Use at least 6 characters for your password.', 'auth/too-many-requests': 'Too many tries. Please wait a few minutes.',
+    'auth/network-request-failed': 'No internet connection. Please try again.', 'auth/popup-closed-by-user': '',
+    'auth/cancelled-popup-request': '', 'auth/unauthorized-domain': 'This website address isn’t allowed in Firebase yet.'
+  })[c] ?? 'Something went wrong. Please try again.';
+}
+async function googleSignIn() {
+  if (!auth) return;
+  const p = new fb.GoogleAuthProvider();
+  try { await fb.signInWithPopup(auth, p); }
+  catch (e) {
+    if (['auth/popup-blocked', 'auth/operation-not-supported-in-this-environment'].includes(e.code)) return fb.signInWithRedirect(auth, p);
+    const m = friendly(e); if (m) authMsg(m, true);
+  }
+}
+async function emailSubmit() {
+  if (!auth) return;
+  const email = $('aEmail').value.trim(), pass = $('aPass').value;
+  $('aSubmit').disabled = true; authMsg('');
+  try {
+    if (authMode === 'reset') {
+      await fb.sendPasswordResetEmail(auth, email);
+      authMsg('If that email has an account, a reset link is on its way. Check your inbox.', false, true);
+    } else if (authMode === 'up') {
+      const cred = await fb.createUserWithEmailAndPassword(auth, email, pass);
+      await fb.sendEmailVerification(cred.user); setAuthMode('verify');
+    } else {
+      const cred = await fb.signInWithEmailAndPassword(auth, email, pass);
+      if (!isVerified(cred.user)) setAuthMode('verify');
+    }
+  } catch (e) { authMsg(friendly(e), true); }
+  finally { $('aSubmit').disabled = false; }
+}
+async function checkVerified() {
+  if (!user) return setAuthMode('in');
+  await user.reload(); user = auth.currentUser;
+  if (isVerified(user)) { await user.getIdToken(true); renderUser(); closeAuth(); if (pending) { const p = pending; pending = null; p(); } }
+  else authMsg('Not verified yet. Open the link in the email (check spam too), then try again.', true);
+}
+async function resendVerify() {
+  try { await fb.sendEmailVerification(user); authMsg('Sent again. Check your inbox and spam folder.', false, true); }
+  catch (e) { authMsg(friendly(e), true); }
+}
+async function signOutNow() { if (auth) await fb.signOut(auth); user = null; pending = null; renderUser(); closeAuth(); }
+addEventListener('keydown', e => { if (e.key === 'Escape' && !$('authModal').hidden) closeAuth(); });
+$('authLogo').src = document.querySelector('.brand img').src;
+if (location.protocol === 'https:') $('fineTxt').textContent = 'Your connection is encrypted (HTTPS). We never see your Google password.';
+
+/* ===== phone menu & About page ===== */
+const isPhone = () => matchMedia('(max-width:640px)').matches;
+function toggleMenu(open) {
+  const m = $('menu'), o = open === undefined ? !m.classList.contains('open') : open;
+  m.classList.toggle('open', o); $('menuShade').classList.toggle('open', o);
+  $('menuBtn').setAttribute('aria-expanded', o);
+  document.getElementById('mIcon').setAttribute('d', o ? 'M6 6l12 12M18 6L6 18' : 'M4 7h16M4 12h16M4 17h16');
+  if (o) renderMenuAcct();
+}
+function renderMenuAcct() {
+  const a = $('menuAcct');
+  if (typeof AUTH_ON === 'undefined' || !AUTH_ON) { a.hidden = true; return; }
+  a.hidden = false;
+  a.innerHTML = signedIn() && user
+    ? '<span class="av">' + $('av').innerHTML + '</span><span>' + esc(user.displayName || user.email || 'Signed in') + '</span><button class="btn btn-ghost" onclick="toggleMenu(false);signOutNow()">Sign out</button>'
+    : '<span>Sign in to check products</span><button class="btn btn-primary" onclick="toggleMenu(false);openAuth(\'in\')">Sign in</button>';
+}
+function openAbout(where) {
+  toggleMenu(false);
+  if (!isPhone()) { document.getElementById(where || 'about').scrollIntoView({ behavior: 'smooth' }); return; }
+  $('about').classList.add('page'); document.body.style.overflow = 'hidden';
+  $('about').scrollTop = 0;
+  if (where) setTimeout(() => { const t = document.getElementById(where); $('about').scrollTo({ top: t.offsetTop - 70, behavior: 'smooth' }); }, 60);
+}
+function closeAbout() { $('about').classList.remove('page'); document.body.style.overflow = ''; }
+document.querySelectorAll('nav .links a[href="#about"], nav .links a[href="#faq"]').forEach(a => a.addEventListener('click', e => {
+  if (isPhone()) { e.preventDefault(); openAbout(a.getAttribute('href') === '#faq' ? 'faq' : null); }
+}));
+addEventListener('keydown', e => { if (e.key === 'Escape') { toggleMenu(false); closeAbout(); } });
+
+renderChips();
+loadCats();   // also wakes up the server early if it was asleep
+initAuth();
+</script>
+</body>
+</html>
